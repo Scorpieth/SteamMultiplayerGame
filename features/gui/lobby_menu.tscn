@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://dsw2rh17w0fye"]
+[gd_scene load_steps=4 format=3 uid="uid://dsw2rh17w0fye"]
 
 [ext_resource type="Script" path="res://features/gui/LobbyMenu.cs" id="1_30kvu"]
 [ext_resource type="Script" path="res://features/gui/LobbyList.cs" id="2_l0kin"]
+[ext_resource type="Script" path="res://features/gui/LobbyPlayersList.cs" id="3_wlcmt"]
 
-[node name="LobbyMenu" type="PanelContainer" node_paths=PackedStringArray("_hostButton", "_joinButton")]
+[node name="LobbyMenu" type="PanelContainer" node_paths=PackedStringArray("HostButton", "JoinButton", "PlayButton", "LeaveButton", "_lobbies", "_waitingRoom")]
 custom_minimum_size = Vector2(400, 250)
 anchors_preset = 8
 anchor_left = 0.5
@@ -17,58 +18,94 @@ offset_bottom = 23.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_30kvu")
-_hostButton = NodePath("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Host")
-_joinButton = NodePath("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Join")
+HostButton = NodePath("Lobbies/HBoxContainer/VBoxContainer/VBoxContainer/Host")
+JoinButton = NodePath("Lobbies/HBoxContainer/VBoxContainer/VBoxContainer/Join")
+PlayButton = NodePath("WaitingRoom/VBoxContainer/HBoxContainer/Play")
+LeaveButton = NodePath("WaitingRoom/VBoxContainer/HBoxContainer/Leave")
+_lobbies = NodePath("Lobbies")
+_waitingRoom = NodePath("WaitingRoom")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="Lobbies" type="MarginContainer" parent="."]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Lobbies"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Lobbies/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Steam" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Steam" type="Label" parent="Lobbies/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Steam Lobbies"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Lobbies/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Host" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+[node name="Host" type="Button" parent="Lobbies/HBoxContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 action_mode = 0
 text = "Host"
 
-[node name="Join" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+[node name="Join" type="Button" parent="Lobbies/HBoxContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 action_mode = 0
 text = "Join"
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Lobbies/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 5
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="Lobbies/HBoxContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/MarginContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Lobbies/HBoxContainer/MarginContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="Refresh" type="Button" parent="MarginContainer/HBoxContainer/MarginContainer/PanelContainer/VBoxContainer"]
+[node name="Refresh" type="Button" parent="Lobbies/HBoxContainer/MarginContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Refresh List"
 
-[node name="LobbyList" type="ItemList" parent="MarginContainer/HBoxContainer/MarginContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("_refreshButton")]
+[node name="LobbyList" type="ItemList" parent="Lobbies/HBoxContainer/MarginContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("_refreshButton")]
 layout_mode = 2
 size_flags_vertical = 3
 item_count = 1
 script = ExtResource("2_l0kin")
 _refreshButton = NodePath("../Refresh")
+
+[node name="WaitingRoom" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="WaitingRoom"]
+layout_mode = 2
+
+[node name="LobbyPlayersList" type="ItemList" parent="WaitingRoom/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("3_wlcmt")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="WaitingRoom/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Play" type="Button" parent="WaitingRoom/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Play
+"
+
+[node name="Leave" type="Button" parent="WaitingRoom/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Leave"

@@ -1,6 +1,8 @@
 using Godot;
 using GodotSteam;
 
+namespace SteamMultiplayer.features.gui;
+
 public partial class LobbyList : ItemList
 {
 	[Export] private Button _refreshButton;

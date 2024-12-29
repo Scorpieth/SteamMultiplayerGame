@@ -1,6 +1,7 @@
 using Godot;
-using System;
 using GodotSteam;
+
+namespace SteamMultiplayer;
 
 public partial class Main : Node
 {

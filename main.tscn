@@ -1,18 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://o7p6f421ovd7"]
+[gd_scene load_steps=5 format=3 uid="uid://o7p6f421ovd7"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_d73tv"]
+[ext_resource type="Script" path="res://Gui.cs" id="2_3xoe0"]
 [ext_resource type="PackedScene" uid="uid://dsw2rh17w0fye" path="res://features/gui/lobby_menu.tscn" id="2_v64vj"]
+[ext_resource type="Script" path="res://features/networking/SteamNetworking.cs" id="3_sa68l"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_d73tv")
 
-[node name="Gui" type="Control" parent="."]
+[node name="SteamNetworking" type="Node" parent="." node_paths=PackedStringArray("_gui")]
+script = ExtResource("3_sa68l")
+_gui = NodePath("../Gui")
+
+[node name="Gui" type="Control" parent="." node_paths=PackedStringArray("_lobbyMenu")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("2_3xoe0")
+_lobbyMenu = NodePath("LobbyMenu")
 
 [node name="LobbyMenu" parent="Gui" instance=ExtResource("2_v64vj")]
 layout_mode = 1

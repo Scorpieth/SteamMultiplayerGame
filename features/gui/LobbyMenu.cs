@@ -1,40 +1,24 @@
 using Godot;
-using GodotSteam;
+
+namespace SteamMultiplayer.features.gui;
 
 public partial class LobbyMenu : PanelContainer
 {
-	[Export] private Button _hostButton;
-	[Export] private Button _joinButton;
+	[Export] public Button HostButton;
+	[Export] public Button JoinButton;
+	[Export] public Button PlayButton;
+	[Export] public Button LeaveButton;
 
-	private ulong _lobbyId;
+	[Export] private Control _lobbies;
+	[Export] private Control _waitingRoom;
 	
+
+	public void ShowLobbies(bool show = true) => _lobbies.Visible = show;
+	public void ShowWaitingRoom(bool show = true) => _waitingRoom.Visible = show;
+
 	public override void _Ready()
 	{
-		_hostButton.Pressed += () =>
-		{
-			Steam.CreateLobby(Steam.LobbyType.Public, 5);
-		};
-
-		_joinButton.Pressed += () =>
-		{
-			Steam.JoinLobby(_lobbyId);
-		};
-
-		Steam.LobbyCreated += (connect, id) =>
-		{
-			if (connect != 1)
-			{
-				GD.Print("Failed creating steam lobby");
-			}
-			
-			_lobbyId = id;
-			Steam.SetLobbyJoinable(_lobbyId, true);
-			Steam.SetLobbyData(_lobbyId, "name", "Scorpie Lobby");
-			
-			// Allows for fallback p2p communication to be relayed through steam to bypass Nat and firewall issues
-			Steam.AllowP2PPacketRelay(true);
-			
-			GD.Print($"Lobby Created: {id}");
-		};
+		_waitingRoom.Visible = false;
+		_lobbies.Visible = true;
 	}
 }
