@@ -1,6 +1,8 @@
-[gd_scene format=3 uid="uid://dsw2rh17w0fye"]
+[gd_scene load_steps=2 format=3 uid="uid://dsw2rh17w0fye"]
 
-[node name="LobbyMenu" type="PanelContainer"]
+[ext_resource type="Script" path="res://features/gui/LobbyMenu.cs" id="1_30kvu"]
+
+[node name="LobbyMenu" type="PanelContainer" node_paths=PackedStringArray("_hostButton", "_joinButton")]
 custom_minimum_size = Vector2(125, 100)
 anchors_preset = 8
 anchor_left = 0.5
@@ -13,6 +15,9 @@ offset_right = 20.0
 offset_bottom = 23.5
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_30kvu")
+_hostButton = NodePath("HBoxContainer/VBoxContainer/VBoxContainer/Host")
+_joinButton = NodePath("HBoxContainer/VBoxContainer/VBoxContainer/Join")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
