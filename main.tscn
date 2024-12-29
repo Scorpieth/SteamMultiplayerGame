@@ -15,7 +15,10 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="LobbyMenu" parent="Gui" instance=ExtResource("2_v64vj")]
-layout_mode = 0
-anchors_preset = 0
+layout_mode = 1
+offset_left = -150.0
+offset_top = -125.0
+offset_right = 150.0
+offset_bottom = 125.0
 
 [node name="World" type="Node3D" parent="."]

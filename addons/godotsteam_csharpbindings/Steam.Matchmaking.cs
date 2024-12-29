@@ -54,7 +54,7 @@ public static partial class Steam
     
     public static void CreateLobby(LobbyType lobbyType, long maxMembers = 2)
     {
-        GetInstance().Call(Methods.CreateLobby, (long)lobbyType, maxMembers);
+        GetInstance().Call(Methods.CreateLobby, (int)lobbyType, maxMembers);
     }
     
     public static void JoinLobby(ulong steamLobbyId)
