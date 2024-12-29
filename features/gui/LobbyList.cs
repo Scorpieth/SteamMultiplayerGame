@@ -24,11 +24,4 @@ public partial class LobbyList : ItemList
 			}
 		};
 	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
 }
-
-public record LobbyListItem(string name, string mode);
