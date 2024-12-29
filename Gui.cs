@@ -33,7 +33,6 @@ public partial class Gui : Control
 
 		_lobbyMenu.PlayButton.Pressed += () =>
 		{
-			
 			EmitSignal(SignalName.LobbyPlayRequested);
 		};
 		

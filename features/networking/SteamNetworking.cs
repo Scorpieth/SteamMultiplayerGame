@@ -27,6 +27,7 @@ public partial class SteamNetworking : Node
 		_gui.LobbyHostRequested += () => CreateSteamLobby(Steam.LobbyType.Public, 5);
 		_gui.LobbyPlayRequested += () =>
 		{
+			Main.Instance.StartGame();
 			
 		};
 

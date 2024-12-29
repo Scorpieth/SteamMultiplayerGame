@@ -6,9 +6,10 @@
 [ext_resource type="Script" path="res://features/networking/SteamNetworking.cs" id="3_sa68l"]
 [ext_resource type="PackedScene" uid="uid://76f33oh8735t" path="res://features/debugging/DebugWindow.tscn" id="5_k05c6"]
 
-[node name="Main" type="Node" node_paths=PackedStringArray("_steamNetworking")]
+[node name="Main" type="Node" node_paths=PackedStringArray("_steamNetworking", "_world")]
 script = ExtResource("1_d73tv")
 _steamNetworking = NodePath("SteamNetworking")
+_world = NodePath("World")
 
 [node name="SteamNetworking" type="Node" parent="." node_paths=PackedStringArray("_gui")]
 script = ExtResource("3_sa68l")
@@ -34,7 +35,6 @@ offset_right = 150.0
 offset_bottom = 125.0
 
 [node name="DebugWindow" parent="Gui" instance=ExtResource("5_k05c6")]
-visible = false
 layout_mode = 1
 
 [node name="World" type="Node3D" parent="."]
