@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://features/gui/LobbyList.cs" id="2_l0kin"]
 
 [node name="LobbyMenu" type="PanelContainer" node_paths=PackedStringArray("_hostButton", "_joinButton")]
-custom_minimum_size = Vector2(300, 250)
+custom_minimum_size = Vector2(400, 250)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -62,12 +62,13 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/MarginContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/MarginContainer/PanelContainer/VBoxContainer"]
+[node name="Refresh" type="Button" parent="MarginContainer/HBoxContainer/MarginContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Refresh List"
 
-[node name="LobbyList" type="ItemList" parent="MarginContainer/HBoxContainer/MarginContainer/PanelContainer/VBoxContainer"]
+[node name="LobbyList" type="ItemList" parent="MarginContainer/HBoxContainer/MarginContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("_refreshButton")]
 layout_mode = 2
 size_flags_vertical = 3
 item_count = 1
 script = ExtResource("2_l0kin")
+_refreshButton = NodePath("../Refresh")

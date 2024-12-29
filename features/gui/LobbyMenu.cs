@@ -1,4 +1,3 @@
-using System;
 using Godot;
 using GodotSteam;
 
@@ -30,15 +29,12 @@ public partial class LobbyMenu : PanelContainer
 			
 			_lobbyId = id;
 			Steam.SetLobbyJoinable(_lobbyId, true);
-			Steam.SetLobbyData(_lobbyId, "name", "TestLobby");
-			Steam.SetLobbyData(_lobbyId, "mode", "TestLobbyMode");
-
+			Steam.SetLobbyData(_lobbyId, "name", "Scorpie Lobby");
+			
 			// Allows for fallback p2p communication to be relayed through steam to bypass Nat and firewall issues
 			Steam.AllowP2PPacketRelay(true);
 			
 			GD.Print($"Lobby Created: {id}");
-			GD.Print("Requesting lobbies for lobby list");
-			Steam.RequestLobbyList();
 		};
 	}
 }
