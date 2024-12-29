@@ -1,11 +1,13 @@
 using Godot;
 using GodotSteam;
+using SteamMultiplayer.features.networking;
 
 namespace SteamMultiplayer;
 
 public partial class Main : Node
 {
-	// Called when the node enters the scene tree for the first time.
+	[Export] private SteamNetworking _steamNetworking;
+	
 	public override void _Ready()
 	{
 		var steamInit = Steam.SteamInit(480);
@@ -16,13 +18,10 @@ public partial class Main : Node
 			GD.PrintErr("Steam is not running");
 		}
 		
-		var steamId = Steam.GetSteamID();
-		var name = Steam.GetFriendPersonaName(steamId);	
-        
-		GD.Print("Your Steam Name: " + name);
+		_steamNetworking.PlayerSteamId = Steam.GetSteamID();
+		_steamNetworking.PlayerSteamName = Steam.GetFriendPersonaName(_steamNetworking.PlayerSteamId);	
 	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	
 	public override void _Process(double delta)
 	{
 		Steam.RunCallbacks();

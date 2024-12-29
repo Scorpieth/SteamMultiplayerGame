@@ -2,6 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 using GodotSteam;
+using SteamMultiplayer.features.networking;
 
 public partial class LobbyPlayersList : ItemList
 {
@@ -10,10 +11,7 @@ public partial class LobbyPlayersList : ItemList
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		Steam.LobbyJoined += (lobby, permissions, locked, response) =>
-		{
-			RefreshPlayers(lobby);
-		};
+		SteamNetworking.Instance.PlayerListChangedInLobby += RefreshPlayers;
 	}
 
 	private void RefreshPlayers(ulong lobbyId)
