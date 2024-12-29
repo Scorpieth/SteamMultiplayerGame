@@ -5,7 +5,10 @@ namespace SteamMultiplayer;
 
 public partial class Gui : Control
 {
-	[Export] LobbyMenu _lobbyMenu;
+	[Export] private Main _mainInstance;
+	
+	[Export] private bool _debugMode;
+	[Export] private LobbyMenu _lobbyMenu;
 	
 	[Signal] public delegate void LobbyJoinRequestedEventHandler();
 	[Signal] public delegate void LobbyHostRequestedEventHandler();
@@ -30,12 +33,25 @@ public partial class Gui : Control
 
 		_lobbyMenu.PlayButton.Pressed += () =>
 		{
+			
 			EmitSignal(SignalName.LobbyPlayRequested);
 		};
 		
 		_lobbyMenu.LeaveButton.Pressed += () =>
 		{
 			EmitSignal(SignalName.LobbyLeaveRequested);
+		};
+		
+		GetNode<Control>("DebugWindow").Visible = _debugMode;
+
+		_mainInstance.GameStarted += () =>
+		{
+			_lobbyMenu.Visible = false;
+		};
+
+		_mainInstance.GameEnded += () =>
+		{
+			_lobbyMenu.Visible = true;
 		};
 	}
 }

@@ -11,7 +11,6 @@ public partial class LobbyMenu : PanelContainer
 
 	[Export] private Control _lobbies;
 	[Export] private Control _waitingRoom;
-	
 
 	public void ShowLobbies(bool show = true) => _lobbies.Visible = show;
 	public void ShowWaitingRoom(bool show = true) => _waitingRoom.Visible = show;

@@ -26,7 +26,6 @@ _lobbies = NodePath("Lobbies")
 _waitingRoom = NodePath("WaitingRoom")
 
 [node name="Lobbies" type="MarginContainer" parent="."]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5

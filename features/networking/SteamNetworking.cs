@@ -7,8 +7,8 @@ namespace SteamMultiplayer.features.networking;
 public partial class SteamNetworking : Node
 {
 	[Export] private Gui _gui;
-	
-	private SteamLobby _steamLobby;
+
+	public SteamLobby SteamLobby { get; private set; }
 
 	public Dictionary<int, string> Players { get; } = new();
 
@@ -17,7 +17,6 @@ public partial class SteamNetworking : Node
 	public static SteamNetworking Instance { get; private set; }
 
 	[Signal] public delegate void HostCreatedEventHandler();
-	[Signal] public delegate void PlayerListChangedInLobbyEventHandler(ulong lobbyId);
 	[Signal] public delegate void PlayerListChangedEventHandler();
 	
 	public override void _Ready()
@@ -26,11 +25,16 @@ public partial class SteamNetworking : Node
 		
 		_gui.LobbyJoinRequested += () => { };
 		_gui.LobbyHostRequested += () => CreateSteamLobby(Steam.LobbyType.Public, 5);
+		_gui.LobbyPlayRequested += () =>
+		{
+			
+		};
 
 		Steam.LobbyJoined += (lobbyId, permissions, locked, response) => OnLobbyJoined(lobbyId);
 		Multiplayer.PeerConnected += (id) =>
 		{
 			RpcId(id, MethodName.RegisterPlayer, PlayerSteamName);
+			GD.Print("Peer connected");
 		};
 	}
 
@@ -41,23 +45,24 @@ public partial class SteamNetworking : Node
 		// Since this is the host we've already created the host peer and connected
 		if (lobbyOwnerId == PlayerSteamId)
 		{
-			EmitSignal(SignalName.PlayerListChangedInLobby, lobbyId);
+			EmitSignal(SignalName.PlayerListChanged);
 			return;
 		}
 			
 		ConnectSteamSocket(lobbyOwnerId);
 		Rpc(MethodName.RegisterPlayer, PlayerSteamName);
 		Players.Add(Multiplayer.GetUniqueId(), PlayerSteamName);
-			
-		EmitSignal(SignalName.PlayerListChangedInLobby, lobbyId);
+		
+		EmitSignal(SignalName.PlayerListChanged);
 	}
 
-	private void CreateSteamSocket()
+	private void CreateSteamSocketHost()
 	{
 		var peer = new SteamMultiplayerPeer();
 		peer.CreateHost(0);
 		Multiplayer.SetMultiplayerPeer(peer);
-		GD.Print("Steam socket created");
+		Players.Add(Multiplayer.GetUniqueId(), PlayerSteamName);
+		GD.Print("Steam socket host created");
 	}
 
 	private void ConnectSteamSocket(ulong steamId)
@@ -71,8 +76,8 @@ public partial class SteamNetworking : Node
 	public void CreateSteamLobby(Steam.LobbyType lobbyType, long maxPlayers)
 	{
 		Steam.CreateLobby(lobbyType, maxPlayers);
-		_steamLobby = new SteamLobby();
-		_steamLobby.SteamLobbyInitialized += CreateSteamSocket;
+		SteamLobby = new SteamLobby();
+		SteamLobby.SteamLobbyInitialized += CreateSteamSocketHost;
 	}
 	
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
