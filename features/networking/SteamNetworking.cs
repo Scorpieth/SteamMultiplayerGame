@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using Godot;
 using GodotSteam;
 
@@ -33,7 +34,8 @@ public partial class SteamNetworking : Node
 		};
 
 		Steam.LobbyJoined += (lobbyId, permissions, locked, response) => OnLobbyJoined(lobbyId, response);
-		Multiplayer.PeerConnected += (id) =>
+		
+		Multiplayer.PeerConnected += id =>
 		{
 			RpcId(id, MethodName.RegisterPlayer, PlayerSteamName);
 			GD.Print("Peer connected");
@@ -62,8 +64,8 @@ public partial class SteamNetworking : Node
 		
 		ConnectSteamSocket(lobbyOwnerId);
 		Players.Add(Multiplayer.GetUniqueId(), PlayerSteamName);
-		
-		
+		Thread.Sleep(1000);
+		Rpc(MethodName.RegisterPlayer, PlayerSteamName);
 		EmitSignal(SignalName.PlayerListChanged);
 	}
 
@@ -82,7 +84,6 @@ public partial class SteamNetworking : Node
 		peer.CreateClient(steamId, 0);
 		Multiplayer.SetMultiplayerPeer(peer);
 		GD.Print("Steam socket connected");
-		Rpc(MethodName.RegisterPlayer, PlayerSteamName);
 	}
 
 	public void CreateSteamLobby(Steam.LobbyType lobbyType, long maxPlayers)
