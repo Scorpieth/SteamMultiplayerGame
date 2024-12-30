@@ -95,7 +95,7 @@ public sealed partial class SteamMultiplayerPeer : MultiplayerPeerExtension
 
     public override byte[] _GetPacketScript()
     {
-        return _classReference.Call(Methods.GetPacketScript).As<byte[]>();
+        return _classReference.Call(Methods.GetPacket).As<byte[]>();
     }
 
     public override int _GetTransferChannel()
@@ -125,7 +125,7 @@ public sealed partial class SteamMultiplayerPeer : MultiplayerPeerExtension
 
     public override Error _PutPacketScript(byte[] pBuffer)
     {
-        return _classReference.Call(Methods.PutPacketScript, pBuffer).As<Error>();
+        return _classReference.Call(Methods.PutPacket, pBuffer).As<Error>();
     }
 
     public override void _SetRefuseNewConnections(bool pEnable)
@@ -154,13 +154,15 @@ public sealed partial class SteamMultiplayerPeer : MultiplayerPeerExtension
         public static readonly StringName GetPacketChannel = new("get_packet_channel");
         public static readonly StringName GetPacketMode = new("get_packet_mode");
         public static readonly StringName GetPacketPeer = new("get_packet_peer");
-        public static readonly StringName GetPacketScript = new("get_packet_script");
+        public static readonly StringName GetPacketScript = new("get_packet_script"); // not implemented
+        public static readonly StringName GetPacket = new("get_packet");
+        public static readonly StringName PutPacket = new("put_packet");
         public static readonly StringName GetTransferChannel = new("get_transfer_channel");
         public static readonly StringName GetTransferMode = new("get_transfer_mode");
         public static readonly StringName IsRefusingNewConnections = new("is_refusing_new_connections");
         public static readonly StringName IsServer = new("is_server");
         public static readonly StringName IsServerRelaySupported = new("is_server_relay_supported");
-        public static readonly StringName PutPacketScript = new("put_packet_script");
+        public static readonly StringName PutPacketScript = new("put_packet_script"); // Not implemented
         public static readonly StringName SetRefuseNewConnections = new("set_refuse_new_connections");
         public static readonly StringName SetTargetPeer = new("set_target_peer");
     }

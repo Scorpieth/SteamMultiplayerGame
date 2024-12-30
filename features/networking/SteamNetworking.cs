@@ -9,6 +9,8 @@ public partial class SteamNetworking : Node
 {
 	[Export] private Gui _gui;
 
+	private SteamMultiplayerPeer peer = new();
+
 	public SteamLobby SteamLobby { get; private set; }
 
 	public Dictionary<int, string> Players { get; } = new();
@@ -40,6 +42,7 @@ public partial class SteamNetworking : Node
 			RpcId(id, MethodName.RegisterPlayer, PlayerSteamName);
 			GD.Print("Peer connected");
 		};
+		Multiplayer.ConnectedToServer += () => GD.Print("I connected to server");
 	}
 
 	private void OnLobbyJoined(ulong lobbyId, long response)
@@ -64,15 +67,15 @@ public partial class SteamNetworking : Node
 		
 		ConnectSteamSocket(lobbyOwnerId);
 		Players.Add(Multiplayer.GetUniqueId(), PlayerSteamName);
-		Thread.Sleep(1000);
-		Rpc(MethodName.RegisterPlayer, PlayerSteamName);
 		EmitSignal(SignalName.PlayerListChanged);
 	}
 
 	private void CreateSteamSocketHost()
 	{
-		var peer = new SteamMultiplayerPeer();
-		peer.CreateHost(0);
+		peer = new SteamMultiplayerPeer();
+		var err = peer.CreateHost(0);
+		GD.Print("Creating Host.. status: ", err.ToString());
+		
 		Multiplayer.SetMultiplayerPeer(peer);
 		Players.Add(Multiplayer.GetUniqueId(), PlayerSteamName);
 		GD.Print("Steam socket host created");
@@ -80,8 +83,11 @@ public partial class SteamNetworking : Node
 
 	private void ConnectSteamSocket(ulong steamId)
 	{
-		var peer = new SteamMultiplayerPeer();
-		peer.CreateClient(steamId, 0);
+		peer = new SteamMultiplayerPeer();
+		var err = peer.CreateClient(steamId, 0);
+		
+		GD.Print(err.ToString());
+		
 		Multiplayer.SetMultiplayerPeer(peer);
 		GD.Print("Steam socket connected");
 	}
