@@ -30,7 +30,6 @@ public partial class LobbyList : ScrollContainer
 			foreach (var lobbyId in lobbyIds)
 			{
 				var lobbyName = Steam.GetLobbyData((ulong)lobbyId, "name");
-				GD.Print("Lobby Item:", lobbyId, lobbyName);
 				if (string.IsNullOrEmpty(lobbyName))
 				{
 					continue;

@@ -1,9 +1,12 @@
+using Godot;
+
 namespace GodotSteam;
 
 public static partial class Steam
 {
     public static bool AcceptP2PSessionWithUser(ulong steamIdRemote)
     {
+        GD.Print("AcceptP2PSessionWithUser", steamIdRemote);
         return GetInstance().Call(Methods.AcceptP2PSessionWithUser, steamIdRemote).AsBool();
     }
     

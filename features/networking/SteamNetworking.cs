@@ -66,6 +66,9 @@ public partial class SteamNetworking : Node
 			return;
 		}
 		
+		GD.Print("playerId", PlayerSteamId);
+		GD.Print("lobbyownerId", lobbyOwnerId);
+		
 		ConnectSteamSocket(lobbyOwnerId);
 		Players.Add(Multiplayer.GetUniqueId(), PlayerSteamName);
 		// Rpc(MethodName.RegisterPlayer, PlayerSteamName);

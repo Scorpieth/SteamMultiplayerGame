@@ -62,7 +62,7 @@ public partial class SteamMultiplayerPeer : MultiplayerPeerExtension
         Steam.InitRelayNetworkAccess();
 
         listenSocket = Steam.CreateListenSocketP2P(localVirtualPort, _configs);
-
+        GD.Print("CreateServerListenSocket: ", listenSocket);
         if (listenSocket == SteamNetConnectionInvalid) {
             return Error.CantCreate;
         }
@@ -80,9 +80,10 @@ public partial class SteamMultiplayerPeer : MultiplayerPeerExtension
         }
         uniqueId = GenerateUniqueId();
         Steam.InitRelayNetworkAccess();
-
-        uint connection = Steam.ConnectP2P(identityRemote, remoteVirtualPort, _configs);
         
+        Steam.CreateListenSocketP2P(0, _configs);
+        uint connection = Steam.ConnectP2P(identityRemote, remoteVirtualPort, _configs);
+        GD.Print("Connection to Steam ", connection);
         if (connection == SteamNetConnectionInvalid) {
             uniqueId = 0;
             GD.PrintErr("Failed to connect; connection is invalid");
@@ -317,18 +318,36 @@ public partial class SteamMultiplayerPeer : MultiplayerPeerExtension
 
     private void _OnNetworkConnectionStatusChanged(long connectHandle, Dictionary connection, long oldState)
     {
+        GD.Print("Connection status changed in Steam network.");
         ulong steamId = connection["identity"].AsUInt64();
         Steam.NetworkingConnectionState oldStateEnum = (Steam.NetworkingConnectionState) oldState;
         Steam.NetworkingConnectionState newStateEnum = (Steam.NetworkingConnectionState) connection["connection_state"].AsInt32();
+        GD.Print("oldState: ", oldStateEnum.ToString());
+        GD.Print("newState: ", newStateEnum.ToString());
+        GD.Print("Dictionary Connection: ", connection);
+
+        if (oldStateEnum == Steam.NetworkingConnectionState.None &&
+            newStateEnum == Steam.NetworkingConnectionState.Connecting)
+        {
+            GD.Print("AcceptConnection");
+            ErrorResult result = (ErrorResult) Steam.AcceptConnection(connectHandle);
+            if (result != ErrorResult.Ok)
+            {
+                GD.Print("connectionResultFromAcceptConnection",result.ToString());
+                Steam.CloseConnection((uint)connectHandle, (int) Steam.NetworkingConnectionEnd.AppExceptionGeneric, "Failed to accept connection", false);
+            }
+        }
         
         if (connection["listen_socket"].AsUInt32() != 0 &&
             oldStateEnum == Steam.NetworkingConnectionState.None &&
             newStateEnum == Steam.NetworkingConnectionState.Connecting)
         {
+            GD.Print("ListenSocketThing");
             // TODO: Confirm connectHandle is supposed to be a uint
-            ErrorResult result = (ErrorResult) Steam.AcceptConnection((uint)connectHandle);
+            ErrorResult result = (ErrorResult) Steam.AcceptConnection(connectHandle);
             if (result != ErrorResult.Ok)
             {
+                GD.Print("connectionResultFromAcceptConnection",result.ToString());
                 Steam.CloseConnection((uint)connectHandle, (int) Steam.NetworkingConnectionEnd.AppExceptionGeneric, "Failed to accept connection", false);
             }
         }
@@ -337,9 +356,11 @@ public partial class SteamMultiplayerPeer : MultiplayerPeerExtension
             oldStateEnum == Steam.NetworkingConnectionState.FindingRoute) &&
             newStateEnum == Steam.NetworkingConnectionState.Connected)
         {
+            GD.Print("Adding Connection in Steam network.");
             AddConnection(steamId, (uint) connectHandle);
             if (!_IsServer())
             {
+                GD.Print("Not server: Adding Connection, setting status to connected");
                 connectionStatus = ConnectionStatus.Connected;
                 connectionsBySteamId64[steamId].SendPeer(uniqueId);
             }
@@ -349,6 +370,7 @@ public partial class SteamMultiplayerPeer : MultiplayerPeerExtension
             oldStateEnum == Steam.NetworkingConnectionState.Connected) &&
             newStateEnum == Steam.NetworkingConnectionState.ClosedByPeer)
         {
+            GD.Print("We're gonna disconnect boys");
             if (!_IsServer())
             {
                 if (connectionStatus == ConnectionStatus.Connected)
