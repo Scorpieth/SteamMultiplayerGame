@@ -15,6 +15,8 @@ public partial class Main : Node
 	[Signal] public delegate void GameStartedEventHandler();
 	[Signal] public delegate void GameEndedEventHandler();
 	
+	[Signal] public delegate void SteamInitializedEventHandler();
+	
 	public override void _Ready()
 	{
 		Instance = this;
@@ -26,6 +28,8 @@ public partial class Main : Node
 		{
 			GD.PrintErr("Steam is not running");
 		}
+
+		EmitSignal(SignalName.SteamInitialized);
 		
 		_steamNetworking.PlayerSteamId = Steam.GetSteamID();
 		_steamNetworking.PlayerSteamName = Steam.GetFriendPersonaName(_steamNetworking.PlayerSteamId);

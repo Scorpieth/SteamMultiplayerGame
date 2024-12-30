@@ -71,14 +71,17 @@ layout_mode = 2
 layout_mode = 2
 text = "Refresh List"
 
-[node name="LobbyList" type="ItemList" parent="Lobbies/HBoxContainer/MarginContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("_refreshButton")]
+[node name="LobbyList" type="ScrollContainer" parent="Lobbies/HBoxContainer/MarginContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("_refreshButton")]
 layout_mode = 2
 size_flags_vertical = 3
-item_count = 1
 script = ExtResource("2_l0kin")
 _refreshButton = NodePath("../Refresh")
 
+[node name="VBoxContainer" type="VBoxContainer" parent="Lobbies/HBoxContainer/MarginContainer/PanelContainer/VBoxContainer/LobbyList"]
+layout_mode = 2
+
 [node name="WaitingRoom" type="MarginContainer" parent="."]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5

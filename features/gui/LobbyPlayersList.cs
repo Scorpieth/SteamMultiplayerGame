@@ -9,6 +9,7 @@ public partial class LobbyPlayersList : ItemList
 	private List<LobbyPlayer> _lobbyPlayers = new();
 	
 	private ulong? _steamLobbyId;
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{

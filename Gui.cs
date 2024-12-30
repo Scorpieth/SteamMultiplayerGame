@@ -17,40 +17,13 @@ public partial class Gui : Control
 	
 	public override void _Ready()
 	{
-		_lobbyMenu.HostButton.Pressed += () =>
-		{
-			EmitSignal(SignalName.LobbyHostRequested);
-			_lobbyMenu.ShowLobbies(false);
-			_lobbyMenu.ShowWaitingRoom();
-		};
-
-		_lobbyMenu.JoinButton.Pressed += () =>
-		{
-			EmitSignal(SignalName.LobbyJoinRequested);
-			_lobbyMenu.ShowLobbies(false);
-			_lobbyMenu.ShowWaitingRoom();
-		};
-
-		_lobbyMenu.PlayButton.Pressed += () =>
-		{
-			EmitSignal(SignalName.LobbyPlayRequested);
-		};
-		
-		_lobbyMenu.LeaveButton.Pressed += () =>
-		{
-			EmitSignal(SignalName.LobbyLeaveRequested);
-		};
+		_lobbyMenu.HostButton.Pressed += () => EmitSignal(SignalName.LobbyHostRequested);
+		_lobbyMenu.JoinButton.Pressed += () => EmitSignal(SignalName.LobbyJoinRequested);
+		_lobbyMenu.PlayButton.Pressed += () => EmitSignal(SignalName.LobbyPlayRequested);
+		_lobbyMenu.LeaveButton.Pressed += () => EmitSignal(SignalName.LobbyLeaveRequested);
+		_mainInstance.GameStarted += () => _lobbyMenu.Visible = false;
+		_mainInstance.GameEnded += () => _lobbyMenu.Visible = true;
 		
 		GetNode<Control>("DebugWindow").Visible = _debugMode;
-
-		_mainInstance.GameStarted += () =>
-		{
-			_lobbyMenu.Visible = false;
-		};
-
-		_mainInstance.GameEnded += () =>
-		{
-			_lobbyMenu.Visible = true;
-		};
 	}
 }
