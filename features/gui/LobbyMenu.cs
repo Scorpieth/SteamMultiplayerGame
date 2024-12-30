@@ -27,6 +27,8 @@ public partial class LobbyMenu : PanelContainer
 		JoinButton.Pressed += () =>
 		{
 			Steam.JoinLobby(_lobbiesList.SelectedRow.LobbyDetails.LobbyId);
+			ShowLobbies(false);
+			ShowWaitingRoom();
 		};
 		HostButton.Pressed += () =>
 		{
