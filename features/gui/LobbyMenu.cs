@@ -13,8 +13,6 @@ public partial class LobbyMenu : PanelContainer
 	[Export] private Control _lobbies;
 	[Export] private LobbyList _lobbiesList; 
 	[Export] private Control _waitingRoom;
-	
-	[Signal] public delegate void LobbyJoinedPressedEventHandler(ulong lobbyId);
 
 	public void ShowLobbies(bool show = true) => _lobbies.Visible = show;
 	public void ShowWaitingRoom(bool show = true) => _waitingRoom.Visible = show;
@@ -28,8 +26,7 @@ public partial class LobbyMenu : PanelContainer
 		};
 		JoinButton.Pressed += () =>
 		{
-			
-			EmitSignal(SignalName.LobbyJoinedPressed, _lobbiesList.SelectedRow);
+			Steam.JoinLobby(_lobbiesList.SelectedRow.LobbyDetails.LobbyId);
 		};
 		HostButton.Pressed += () =>
 		{

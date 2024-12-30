@@ -23,7 +23,6 @@ public partial class SteamNetworking : Node
 	{
 		Instance = this;
 		
-		_gui.LobbyJoinRequested += () => { };
 		_gui.LobbyHostRequested += () => CreateSteamLobby(Steam.LobbyType.Public, 5);
 		_gui.LobbyPlayRequested += () =>
 		{

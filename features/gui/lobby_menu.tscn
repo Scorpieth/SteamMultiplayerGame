@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://features/gui/LobbyList.cs" id="2_l0kin"]
 [ext_resource type="Script" path="res://features/gui/LobbyPlayersList.cs" id="3_wlcmt"]
 
-[node name="LobbyMenu" type="PanelContainer" node_paths=PackedStringArray("HostButton", "JoinButton", "PlayButton", "LeaveButton", "_lobbies", "_waitingRoom")]
+[node name="LobbyMenu" type="PanelContainer" node_paths=PackedStringArray("HostButton", "JoinButton", "PlayButton", "LeaveButton", "_lobbies", "_lobbiesList", "_waitingRoom")]
 custom_minimum_size = Vector2(400, 250)
 anchors_preset = 8
 anchor_left = 0.5
@@ -23,6 +23,7 @@ JoinButton = NodePath("Lobbies/HBoxContainer/VBoxContainer/VBoxContainer/Join")
 PlayButton = NodePath("WaitingRoom/VBoxContainer/HBoxContainer/Play")
 LeaveButton = NodePath("WaitingRoom/VBoxContainer/HBoxContainer/Leave")
 _lobbies = NodePath("Lobbies")
+_lobbiesList = NodePath("Lobbies/HBoxContainer/MarginContainer/PanelContainer/VBoxContainer/LobbyList")
 _waitingRoom = NodePath("WaitingRoom")
 
 [node name="Lobbies" type="MarginContainer" parent="."]

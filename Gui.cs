@@ -10,7 +10,6 @@ public partial class Gui : Control
 	[Export] private bool _debugMode;
 	[Export] private LobbyMenu _lobbyMenu;
 	
-	[Signal] public delegate void LobbyJoinRequestedEventHandler();
 	[Signal] public delegate void LobbyHostRequestedEventHandler();
 	[Signal] public delegate void LobbyPlayRequestedEventHandler();
 	[Signal] public delegate void LobbyLeaveRequestedEventHandler();
@@ -18,7 +17,6 @@ public partial class Gui : Control
 	public override void _Ready()
 	{
 		_lobbyMenu.HostButton.Pressed += () => EmitSignal(SignalName.LobbyHostRequested);
-		_lobbyMenu.JoinButton.Pressed += () => EmitSignal(SignalName.LobbyJoinRequested);
 		_lobbyMenu.PlayButton.Pressed += () => EmitSignal(SignalName.LobbyPlayRequested);
 		_lobbyMenu.LeaveButton.Pressed += () => EmitSignal(SignalName.LobbyLeaveRequested);
 		_mainInstance.GameStarted += () => _lobbyMenu.Visible = false;
