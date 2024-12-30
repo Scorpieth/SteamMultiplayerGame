@@ -18,7 +18,7 @@ public partial class LobbyPlayersList : ItemList
 
 	private void RefreshPlayers()
 	{
-		_steamLobbyId ??= SteamNetworking.Instance.SteamLobby.LobbyId;
+		_steamLobbyId ??= SteamNetworking.Instance.LobbyId;
 
 		if (_steamLobbyId is null)
 		{

@@ -15,6 +15,8 @@ public partial class SteamNetworking : Node
 	public string PlayerSteamName { get; set; }
 	public ulong PlayerSteamId { get; set; }
 	public static SteamNetworking Instance { get; private set; }
+	
+	public ulong LobbyId { get; set; }
 
 	[Signal] public delegate void HostCreatedEventHandler();
 	[Signal] public delegate void PlayerListChangedEventHandler();
@@ -42,12 +44,14 @@ public partial class SteamNetworking : Node
 	{
 		var lobbyOwnerId = Steam.GetLobbyOwner(lobbyId);
 		GD.Print("Attempting to join Lobby, response: ", response);
-
+		
 		if ((int)response != (int)ChatRoomResponse.ChatRoomEnterResponseSuccess)
 		{
 			GD.PrintErr(((ChatRoomResponse)response).ToString());
 			return;
 		}
+
+		LobbyId = lobbyId;
 		
 		// Since this is the host we've already created the host peer and connected
 		if (lobbyOwnerId == PlayerSteamId)
@@ -60,6 +64,7 @@ public partial class SteamNetworking : Node
 		ConnectSteamSocket(lobbyOwnerId);
 		// Rpc(MethodName.RegisterPlayer, PlayerSteamName);
 		Players.Add(Multiplayer.GetUniqueId(), PlayerSteamName);
+		
 		
 		EmitSignal(SignalName.PlayerListChanged);
 	}
