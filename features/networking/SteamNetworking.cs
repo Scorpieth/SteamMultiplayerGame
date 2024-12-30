@@ -59,10 +59,8 @@ public partial class SteamNetworking : Node
 			EmitSignal(SignalName.PlayerListChanged);
 			return;
 		}
-
-		GD.Print();
+		
 		ConnectSteamSocket(lobbyOwnerId);
-		// Rpc(MethodName.RegisterPlayer, PlayerSteamName);
 		Players.Add(Multiplayer.GetUniqueId(), PlayerSteamName);
 		
 		
@@ -84,6 +82,7 @@ public partial class SteamNetworking : Node
 		peer.CreateClient(steamId, 0);
 		Multiplayer.SetMultiplayerPeer(peer);
 		GD.Print("Steam socket connected");
+		Rpc(MethodName.RegisterPlayer, PlayerSteamName);
 	}
 
 	public void CreateSteamLobby(Steam.LobbyType lobbyType, long maxPlayers)
