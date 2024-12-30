@@ -43,6 +43,7 @@ public partial class SteamNetworking : Node
 			GD.Print("Peer connected");
 		};
 		Multiplayer.ConnectedToServer += () => GD.Print("I connected to server");
+		Multiplayer.PeerDisconnected += (id) => GD.Print("Peer disconnected");
 	}
 
 	private void OnLobbyJoined(ulong lobbyId, long response)
@@ -67,14 +68,14 @@ public partial class SteamNetworking : Node
 		
 		ConnectSteamSocket(lobbyOwnerId);
 		Players.Add(Multiplayer.GetUniqueId(), PlayerSteamName);
-		Rpc(MethodName.RegisterPlayer, PlayerSteamName);
+		// Rpc(MethodName.RegisterPlayer, PlayerSteamName);
 		EmitSignal(SignalName.PlayerListChanged);
 	}
 
 	private void CreateSteamSocketHost()
 	{
 		peer = new SteamMultiplayerPeer();
-		var err = peer.CreateHost(0);
+		var err = peer.CreateServer(0);
 		GD.Print("Creating Host.. status: ", err.ToString());
 		
 		Multiplayer.SetMultiplayerPeer(peer);
