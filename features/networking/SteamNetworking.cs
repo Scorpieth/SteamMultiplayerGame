@@ -46,6 +46,7 @@ public partial class SteamNetworking : Node
 		if ((int)response != (int)ChatRoomResponse.ChatRoomEnterResponseSuccess)
 		{
 			GD.PrintErr(((ChatRoomResponse)response).ToString());
+			return;
 		}
 		
 		// Since this is the host we've already created the host peer and connected
