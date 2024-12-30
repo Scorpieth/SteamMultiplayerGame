@@ -38,8 +38,8 @@ public partial class LobbyList : ScrollContainer
 				AddItem((ulong)lobbyId, lobbyName);
 			}
 		};
-		
-		Steam.RequestLobbyList();
+
+		Main.Instance.SteamInitialized += Steam.RequestLobbyList;
 	}
 
 	private void AddItem(ulong lobbyId, string lobbyName)
