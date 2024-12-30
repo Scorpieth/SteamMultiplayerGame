@@ -24,23 +24,34 @@ public partial class SteamMultiplayerPeer : MultiplayerPeerExtension
     private int targetPeer = -1;
     private uint uniqueId = 0;
 
-    private Godot.Collections.Array _configs;
-    public Array<Steam.NetworkingConfigValue> Configs {
+    private Godot.Collections.Dictionary<long, Variant> _configs;
+    public Godot.Collections.Dictionary<Steam.NetworkingConfigValue, Variant> Configs {
         set {
-            _configs = new Godot.Collections.Array();
+            _configs = new Godot.Collections.Dictionary<long, Variant>();
             foreach (var item in value) {
-                _configs.Add((long) item);
+                _configs.Add((long)item.Key, item.Value);
             }
         }
         get {
-            return new Array<Steam.NetworkingConfigValue>(_configs);
+            var dict = new Godot.Collections.Dictionary<Steam.NetworkingConfigValue, Variant>();
+            foreach (var item in _configs)
+            {
+                dict.Add((Steam.NetworkingConfigValue)item.Key, item.Value);
+            }
+
+            return dict;
         }
+    }
+
+    public void SetNetworkingConfig(int item, int value)
+    {
+        
     }
 
     public SteamMultiplayerPeer()
     {
         Steam.NetworkConnectionStatusChanged += _OnNetworkConnectionStatusChanged;
-        Configs = new Array<Steam.NetworkingConfigValue>();
+        Configs = new Godot.Collections.Dictionary<Steam.NetworkingConfigValue, Variant>();
     }
 
     public Error CreateServer(int localVirtualPort) {
@@ -70,7 +81,7 @@ public partial class SteamMultiplayerPeer : MultiplayerPeerExtension
         uniqueId = GenerateUniqueId();
         Steam.InitRelayNetworkAccess();
 
-        uint connection = Steam.ConnectP2P(identityRemote.ToString(), remoteVirtualPort, _configs);
+        uint connection = Steam.ConnectP2P(identityRemote, remoteVirtualPort, _configs);
         
         if (connection == SteamNetConnectionInvalid) {
             uniqueId = 0;

@@ -1,3 +1,6 @@
+using Godot;
+using Godot.Collections;
+
 namespace GodotSteam;
 
 public static partial class Steam
@@ -27,7 +30,7 @@ public static partial class Steam
         return GetInstance().Call(Methods.ConfigureConnectionLanes, connection, lanes, priorities, weights).AsInt32();
     }
     
-    public static uint ConnectP2P(string identityReference, int virtualPort, Godot.Collections.Array options)
+    public static uint ConnectP2P(ulong identityReference, int virtualPort, Dictionary<long, Variant> options)
     {
         return GetInstance().Call(Methods.ConnectP2P, identityReference, virtualPort, options).AsUInt32();
     }
@@ -57,7 +60,7 @@ public static partial class Steam
         return GetInstance().Call(Methods.CreateListenSocketIP, iPReference, options).AsUInt32();
     }
     
-    public static uint CreateListenSocketP2P(int virtualPort, Godot.Collections.Array options)
+    public static uint CreateListenSocketP2P(int virtualPort, Dictionary<long, Variant> options)
     {
         return GetInstance().Call(Methods.CreateListenSocketP2P, virtualPort, options).AsUInt32();
     }
