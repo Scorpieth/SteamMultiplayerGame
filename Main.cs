@@ -42,9 +42,7 @@ public partial class Main : Node
 			return;
 		}
 		GD.Print("Starting game..");
-
-
-
+		
 		foreach (var playerData in _steamNetworking.Players)
 		{
 			RpcId(playerData.Key, MethodName.LoadWorld);
