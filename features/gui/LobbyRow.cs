@@ -7,36 +7,33 @@ public partial class LobbyRow : HBoxContainer
     public LobbyDetails LobbyDetails { get; private set; }
     private Label _lobbyNameLabel;
     
-    private StyleBoxFlat _style = new StyleBoxFlat();
-    
     [Signal] public delegate void LobbySelectedEventHandler(ulong lobbyId);
 
     public override void _Ready()
     {
         MouseFilter = MouseFilterEnum.Stop;
-        _style.SetBorderColor(Colors.Black);
     }
 
     public void SetLobbyDetails(ulong lobbyId, string lobbyName)
     {
         LobbyDetails = new LobbyDetails(lobbyId, lobbyName);
         _lobbyNameLabel = new Label();
+        _lobbyNameLabel.Name = lobbyName;
         AddChild(_lobbyNameLabel);
         _lobbyNameLabel.Text = lobbyName;
     }
 
     public void SetSelected(bool selected)
     {
-        var width = selected ? 3 : 0;
-        
-        _style.SetBorderWidthAll(width);
+        _lobbyNameLabel.AddThemeColorOverride("font_color", selected ? Colors.Red : Colors.White);
     }
 
     public override void _GuiInput(InputEvent @event)
     {
-        if (@event is InputEventMouseButton mb && mb.ButtonIndex == MouseButton.Left)
+        if (@event is InputEventMouseButton mb && mb.ButtonIndex == MouseButton.Left && mb.IsReleased())
         {
-            EmitSignal(SignalName.LobbySelected);
+            GD.Print("Mouse Button Pressed");
+            EmitSignal(SignalName.LobbySelected, LobbyDetails.LobbyId);
         }
     }
 }

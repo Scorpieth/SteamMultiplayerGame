@@ -45,8 +45,12 @@ public partial class LobbyList : ScrollContainer
 		_lobbyList.Add(lobbyId, lobbyName);
 		var lobbyRow = new LobbyRow();
 		lobbyRow.SetLobbyDetails(lobbyId, lobbyName);
+		_lobbyRows.Add(lobbyRow);
+		_vBoxContainer.AddChild(lobbyRow);
+		
 		lobbyRow.LobbySelected += id =>
 		{
+			GD.Print("Selected lobby", id);
 			if (SelectedRow is not null)
 			{
 				SelectedRow.SetSelected(false);
@@ -54,8 +58,6 @@ public partial class LobbyList : ScrollContainer
 			SelectedRow = _lobbyRows.First(x => x.LobbyDetails.LobbyId == id);
 			SelectedRow.SetSelected(true);
 		};
-		_lobbyRows.Add(lobbyRow);
-		_vBoxContainer.AddChild(lobbyRow);
 	}
 
 	private void InitVboxContainer()
