@@ -1,12 +1,14 @@
 using Godot;
 using System;
+using SteamMultiplayer.features.player;
 
 public partial class Player : CharacterBody3D
 {
 	[Export] private Camera3D _camera;
+
+	private PlayerInputs _playerInputs;
 	
-	public const float Speed = 5.0f;
-	public const float JumpVelocity = 4.5f;
+	[Export]private float _speed = 5.0f;
 
 	public override void _Ready()
 	{
@@ -16,6 +18,18 @@ public partial class Player : CharacterBody3D
 		SetPhysicsProcess(isMultiplayerAuthority);
 		
 		_camera.SetCurrent(isMultiplayerAuthority);
+
+		if (!isMultiplayerAuthority)
+		{
+			return;
+		}
+
+		_playerInputs = new PlayerInputs(this);
+	}
+
+	public override void _Process(double delta)
+	{
+		_playerInputs.Handler();
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -28,25 +42,18 @@ public partial class Player : CharacterBody3D
 			velocity += GetGravity() * (float)delta;
 		}
 
-		// Handle Jump.
-		if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
-		{
-			velocity.Y = JumpVelocity;
-		}
-
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
-		Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-		Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
-		if (direction != Vector3.Zero)
+		Vector3 direction = _playerInputs.CalculatedDirection;
+		if (_playerInputs.IsMoving)
 		{
-			velocity.X = direction.X * Speed;
-			velocity.Z = direction.Z * Speed;
+			velocity.X = direction.X * _speed;
+			velocity.Z = direction.Z * _speed;
 		}
 		else
 		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
+			velocity.X = Mathf.MoveToward(Velocity.X, 0, _speed);
+			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, _speed);
 		}
 
 		Velocity = velocity;
