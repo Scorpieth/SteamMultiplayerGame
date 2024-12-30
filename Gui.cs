@@ -23,5 +23,11 @@ public partial class Gui : Control
 		_mainInstance.GameEnded += () => _lobbyMenu.Visible = true;
 		
 		GetNode<Control>("DebugWindow").Visible = _debugMode;
+		
+		_mainInstance.GameStarted += () =>
+		{
+			_lobbyMenu.ShowLobbies(false);
+			_lobbyMenu.ShowWaitingRoom(false);
+		};
 	}
 }

@@ -13,16 +13,15 @@ public partial class LobbyRow : HBoxContainer
 
     public override void _Ready()
     {
-        _lobbyNameLabel = new Label();
-        AddChild(_lobbyNameLabel);
         MouseFilter = MouseFilterEnum.Stop;
-        
         _style.SetBorderColor(Colors.Black);
     }
 
     public void SetLobbyDetails(ulong lobbyId, string lobbyName)
     {
         LobbyDetails = new LobbyDetails(lobbyId, lobbyName);
+        _lobbyNameLabel = new Label();
+        AddChild(_lobbyNameLabel);
         _lobbyNameLabel.Text = lobbyName;
     }
 

@@ -19,11 +19,6 @@ public partial class LobbyMenu : PanelContainer
 
 	public override void _Ready()
 	{
-		Main.Instance.GameStarted += () =>
-		{
-			ShowLobbies(false);
-			ShowWaitingRoom(false);
-		};
 		JoinButton.Pressed += () =>
 		{
 			Steam.JoinLobby(_lobbiesList.SelectedRow.LobbyDetails.LobbyId);
