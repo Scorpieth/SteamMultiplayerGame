@@ -67,6 +67,7 @@ public partial class SteamNetworking : Node
 		
 		ConnectSteamSocket(lobbyOwnerId);
 		Players.Add(Multiplayer.GetUniqueId(), PlayerSteamName);
+		Rpc(MethodName.RegisterPlayer, PlayerSteamName);
 		EmitSignal(SignalName.PlayerListChanged);
 	}
 
