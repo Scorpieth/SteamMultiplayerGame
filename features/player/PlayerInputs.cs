@@ -26,5 +26,5 @@ public class PlayerInputs
         Direction = Input.GetVector("Left", "Right", "Up", "Down");
     }
     
-    public Vector3 CalculatedDirection => (_player.Transform.Basis * new Vector3(Direction.X, 0, Direction.Y)).Normalized();
+    public Vector3 CalculatedDirection => (new Vector3(Direction.X, 0, Direction.Y)).Normalized();
 }

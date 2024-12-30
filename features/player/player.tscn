@@ -17,10 +17,13 @@ size = Vector3(0.2, 0.2, 0.5)
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_camera")]
 script = ExtResource("1_xumkq")
-_camera = NodePath("Camera3D")
+_camera = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_0g2wm")
@@ -31,9 +34,6 @@ mesh = SubResource("CapsuleMesh_3t27e")
 [node name="DirectionBox" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.498893, -0.579225)
 mesh = SubResource("BoxMesh_ylgix")
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 15, 3.5)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_qly03")
