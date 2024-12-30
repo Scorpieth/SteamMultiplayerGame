@@ -30,7 +30,8 @@ public partial class Main : Node
 		_steamNetworking.PlayerSteamId = Steam.GetSteamID();
 		_steamNetworking.PlayerSteamName = Steam.GetFriendPersonaName(_steamNetworking.PlayerSteamId);
 		
-		Steam.RequestLobbyList(); // Temporary just to load lobbies quickly since we've got no real menu before lobby menu
+		Steam.RequestLobbyList();
+		Steam.InitRelayNetworkAccess(); // Temporary just to load lobbies quickly since we've got no real menu before lobby menu
 	}
 	
 	public override void _Process(double delta)
