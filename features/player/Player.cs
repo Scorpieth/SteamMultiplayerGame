@@ -1,6 +1,6 @@
 using Godot;
-using System;
-using SteamMultiplayer.features.player;
+
+namespace SteamMultiplayer.features.player;
 
 public partial class Player : CharacterBody3D
 {

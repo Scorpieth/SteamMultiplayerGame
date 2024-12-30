@@ -1,6 +1,7 @@
 using Godot;
 using GodotSteam;
 using SteamMultiplayer.features.networking;
+using SteamMultiplayer.features.player;
 
 namespace SteamMultiplayer;
 
@@ -82,7 +83,7 @@ public partial class Main : Node
 	{
 		var senderId = Multiplayer.GetRemoteSenderId();
 		var packedPlayer = GD.Load<PackedScene>("res://features/player/player.tscn");
-		var playerScene = packedPlayer.Instantiate<Player>();
+		var playerScene = packedPlayer.Instantiate<features.player.Player>();
 		playerScene.SetName($"{steamName}-{senderId}");
 		_world.AddPlayer(playerScene);
 	}

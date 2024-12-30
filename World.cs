@@ -1,4 +1,5 @@
 using Godot;
+using SteamMultiplayer.features.player;
 
 public partial class World : Node3D
 {
