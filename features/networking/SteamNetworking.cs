@@ -30,7 +30,7 @@ public partial class SteamNetworking : Node
 			
 		};
 
-		Steam.LobbyJoined += (lobbyId, permissions, locked, response) => OnLobbyJoined(lobbyId);
+		Steam.LobbyJoined += (lobbyId, permissions, locked, response) => OnLobbyJoined(lobbyId, response);
 		Multiplayer.PeerConnected += (id) =>
 		{
 			RpcId(id, MethodName.RegisterPlayer, PlayerSteamName);
@@ -38,17 +38,24 @@ public partial class SteamNetworking : Node
 		};
 	}
 
-	private void OnLobbyJoined(ulong lobbyId)
+	private void OnLobbyJoined(ulong lobbyId, long response)
 	{
 		var lobbyOwnerId = Steam.GetLobbyOwner(lobbyId);
+		GD.Print("Attempting to join Lobby, response: ", response);
 
+		if ((int)response != (int)ChatRoomResponse.ChatRoomEnterResponseSuccess)
+		{
+			GD.PrintErr(((ChatRoomResponse)response).ToString());
+		}
+		
 		// Since this is the host we've already created the host peer and connected
 		if (lobbyOwnerId == PlayerSteamId)
 		{
 			EmitSignal(SignalName.PlayerListChanged);
 			return;
 		}
-			
+
+		GD.Print();
 		ConnectSteamSocket(lobbyOwnerId);
 		Rpc(MethodName.RegisterPlayer, PlayerSteamName);
 		Players.Add(Multiplayer.GetUniqueId(), PlayerSteamName);
@@ -87,4 +94,19 @@ public partial class SteamNetworking : Node
 		Players.Add(remoteSenderId, playerName);
 		EmitSignal(SignalName.PlayerListChanged);
 	}
+}
+
+public enum ChatRoomResponse
+{
+	ChatRoomEnterResponseSuccess =	1,
+	ChatRoomEnterResponseDoesntExist =	2,
+	ChatRoomEnterResponseNotAllowed = 3,
+	ChatRoomEnterResponseFull =	4,
+	ChatRoomEnterResponseError = 5,
+	ChatRoomEnterResponseBanned = 6,
+	ChatRoomEnterResponseLimited = 7,
+	ChatRoomEnterResponseClanDisabled = 8,
+	ChatRoomEnterResponseCommunityBan = 9,
+	ChatRoomEnterResponseMemberBlockedYou = 10,
+	ChatRoomEnterResponseYouBlockedMember = 11,
 }
