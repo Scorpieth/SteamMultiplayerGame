@@ -75,6 +75,7 @@ func spawn_player(steamName: String):
 	var packedPlayer: PackedScene = load("res://features/player/player.tscn")
 	var playerScene: Node3D = packedPlayer.instantiate()
 	playerScene.name = str(senderId)
+	playerScene.global_position = Vector3(100, 100, 100)
 	world.addPlayer(playerScene)
 	pass
 	
