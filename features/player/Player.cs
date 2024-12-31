@@ -4,9 +4,10 @@ namespace SteamMultiplayer.features.player;
 
 public partial class Player : CharacterBody3D
 {
-	[Export] private PlayerCamera _camera;
+	[Export] private MultiplayerSynchronizer _synchronizer;
 	[Export]private float _speed = 5.0f;
-	
+
+	private PlayerCamera _camera;
 	private PlayerInputs _playerInputs;
 
 	public override void _Ready()
@@ -24,10 +25,15 @@ public partial class Player : CharacterBody3D
 		var packedCamera = GD.Load<PackedScene>("res://features/player/player_camera.tscn");
 		_camera = packedCamera.Instantiate<PlayerCamera>();
 		GetParent().AddChild(_camera);
+
+		var peerId = Multiplayer.GetUniqueId();
 		
 		_camera.SetCurrent(true);
 		_camera.SetPlayer(this);
-		_camera.SetMultiplayerAuthority(Multiplayer.GetUniqueId());
+		
+		// Set up multiplayer authority for children nodes
+		_camera.SetMultiplayerAuthority(peerId);
+		_synchronizer.SetMultiplayerAuthority(peerId);
 		
 		_playerInputs = new PlayerInputs(this);
 	}
