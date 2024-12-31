@@ -21,7 +21,6 @@ public partial class SteamNetworking : Node
 	
 	public ulong LobbyId { get; set; }
 
-	[Signal] public delegate void HostCreatedEventHandler();
 	[Signal] public delegate void PlayerListChangedEventHandler();
 	
 	public override void _Ready()

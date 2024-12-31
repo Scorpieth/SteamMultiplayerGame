@@ -22,7 +22,7 @@ public partial class LobbyPlayersList : ItemList
 
 		if (_steamLobbyId is null)
 		{
-			return;
+			return;	
 		}
 		
 		_lobbyPlayers.Clear();

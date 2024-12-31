@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://dsw2rh17w0fye"]
 
-[ext_resource type="Script" path="res://features/gui/LobbyMenu.cs" id="1_30kvu"]
-[ext_resource type="Script" path="res://features/gui/LobbyList.cs" id="2_l0kin"]
-[ext_resource type="Script" path="res://features/gui/LobbyPlayersList.cs" id="3_wlcmt"]
+[ext_resource type="Script" path="res://features/gui/lobby_menu.gd" id="1_djr71"]
+[ext_resource type="Script" path="res://features/gui/lobby_list.gd" id="2_ge34l"]
+[ext_resource type="Script" path="res://features/gui/lobby_players_list.gd" id="3_fnd4n"]
 
-[node name="LobbyMenu" type="PanelContainer" node_paths=PackedStringArray("HostButton", "JoinButton", "PlayButton", "LeaveButton", "_lobbies", "_lobbiesList", "_waitingRoom")]
+[node name="LobbyMenu" type="PanelContainer" node_paths=PackedStringArray("hostButton", "joinButton", "playButton", "leaveButton", "lobbies", "lobbyList", "waitingRoom", "lobbyPlayersList")]
 custom_minimum_size = Vector2(400, 250)
 anchors_preset = 8
 anchor_left = 0.5
@@ -17,14 +17,15 @@ offset_right = 20.0
 offset_bottom = 23.5
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_30kvu")
-HostButton = NodePath("Lobbies/HBoxContainer/VBoxContainer/VBoxContainer/Host")
-JoinButton = NodePath("Lobbies/HBoxContainer/VBoxContainer/VBoxContainer/Join")
-PlayButton = NodePath("WaitingRoom/VBoxContainer/HBoxContainer/Play")
-LeaveButton = NodePath("WaitingRoom/VBoxContainer/HBoxContainer/Leave")
-_lobbies = NodePath("Lobbies")
-_lobbiesList = NodePath("Lobbies/HBoxContainer/MarginContainer/PanelContainer/VBoxContainer/LobbyList")
-_waitingRoom = NodePath("WaitingRoom")
+script = ExtResource("1_djr71")
+hostButton = NodePath("Lobbies/HBoxContainer/VBoxContainer/VBoxContainer/Host")
+joinButton = NodePath("Lobbies/HBoxContainer/VBoxContainer/VBoxContainer/Join")
+playButton = NodePath("WaitingRoom/VBoxContainer/HBoxContainer/Play")
+leaveButton = NodePath("WaitingRoom/VBoxContainer/HBoxContainer/Leave")
+lobbies = NodePath("Lobbies")
+lobbyList = NodePath("Lobbies/HBoxContainer/MarginContainer/PanelContainer/VBoxContainer/LobbyList")
+waitingRoom = NodePath("WaitingRoom")
+lobbyPlayersList = NodePath("WaitingRoom/VBoxContainer/LobbyPlayersList")
 
 [node name="Lobbies" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -73,11 +74,11 @@ layout_mode = 2
 layout_mode = 2
 text = "Refresh List"
 
-[node name="LobbyList" type="ScrollContainer" parent="Lobbies/HBoxContainer/MarginContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("_refreshButton")]
+[node name="LobbyList" type="ScrollContainer" parent="Lobbies/HBoxContainer/MarginContainer/PanelContainer/VBoxContainer" node_paths=PackedStringArray("refreshButton")]
 layout_mode = 2
 size_flags_vertical = 3
-script = ExtResource("2_l0kin")
-_refreshButton = NodePath("../Refresh")
+script = ExtResource("2_ge34l")
+refreshButton = NodePath("../Refresh")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Lobbies/HBoxContainer/MarginContainer/PanelContainer/VBoxContainer/LobbyList"]
 layout_mode = 2
@@ -96,7 +97,7 @@ layout_mode = 2
 [node name="LobbyPlayersList" type="ItemList" parent="WaitingRoom/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-script = ExtResource("3_wlcmt")
+script = ExtResource("3_fnd4n")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="WaitingRoom/VBoxContainer"]
 layout_mode = 2

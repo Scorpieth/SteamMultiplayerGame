@@ -1,32 +1,32 @@
-[gd_scene load_steps=7 format=3 uid="uid://o7p6f421ovd7"]
+[gd_scene load_steps=6 format=3 uid="uid://o7p6f421ovd7"]
 
-[ext_resource type="Script" path="res://Main.cs" id="1_d73tv"]
-[ext_resource type="Script" path="res://Gui.cs" id="2_3xoe0"]
+[ext_resource type="Script" path="res://main.gd" id="1_b7uqs"]
+[ext_resource type="Script" path="res://features/networking/steam_networking.gd" id="2_21nkt"]
 [ext_resource type="PackedScene" uid="uid://dsw2rh17w0fye" path="res://features/gui/lobby_menu.tscn" id="2_v64vj"]
-[ext_resource type="Script" path="res://features/networking/SteamNetworking.cs" id="3_sa68l"]
-[ext_resource type="PackedScene" uid="uid://76f33oh8735t" path="res://features/debugging/DebugWindow.tscn" id="5_k05c6"]
-[ext_resource type="Script" path="res://World.cs" id="6_1eor6"]
+[ext_resource type="Script" path="res://features/gui/gui.gd" id="3_klrq2"]
+[ext_resource type="Script" path="res://world.gd" id="6_ifnk7"]
 
-[node name="Main" type="Node" node_paths=PackedStringArray("_steamNetworking", "_world")]
-script = ExtResource("1_d73tv")
-_steamNetworking = NodePath("SteamNetworking")
-_world = NodePath("World")
+[node name="Main" type="Node" node_paths=PackedStringArray("networking", "world")]
+script = ExtResource("1_b7uqs")
+networking = NodePath("SteamNetworking")
+world = NodePath("World")
 
-[node name="SteamNetworking" type="Node" parent="." node_paths=PackedStringArray("_gui")]
-script = ExtResource("3_sa68l")
-_gui = NodePath("../Gui")
+[node name="SteamNetworking" type="Node" parent="." node_paths=PackedStringArray("main", "gui")]
+script = ExtResource("2_21nkt")
+main = NodePath("..")
+gui = NodePath("../Gui")
 
-[node name="Gui" type="Control" parent="." node_paths=PackedStringArray("_mainInstance", "_lobbyMenu")]
+[node name="Gui" type="Control" parent="." node_paths=PackedStringArray("main", "networking", "lobbyMenu")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("2_3xoe0")
-_mainInstance = NodePath("..")
-_debugMode = true
-_lobbyMenu = NodePath("LobbyMenu")
+script = ExtResource("3_klrq2")
+main = NodePath("..")
+networking = NodePath("../SteamNetworking")
+lobbyMenu = NodePath("LobbyMenu")
 
 [node name="LobbyMenu" parent="Gui" instance=ExtResource("2_v64vj")]
 layout_mode = 1
@@ -35,11 +35,8 @@ offset_top = -125.0
 offset_right = 150.0
 offset_bottom = 125.0
 
-[node name="DebugWindow" parent="Gui" instance=ExtResource("5_k05c6")]
-layout_mode = 1
-
-[node name="World" type="Node3D" parent="." node_paths=PackedStringArray("_playersContainer")]
-script = ExtResource("6_1eor6")
-_playersContainer = NodePath("Players")
+[node name="World" type="Node3D" parent="." node_paths=PackedStringArray("playersContainer")]
+script = ExtResource("6_ifnk7")
+playersContainer = NodePath("Players")
 
 [node name="Players" type="Node" parent="World"]
