@@ -27,6 +27,7 @@ public partial class Player : CharacterBody3D
 		
 		_camera.SetCurrent(true);
 		_camera.SetPlayer(this);
+		_camera.SetMultiplayerAuthority(Multiplayer.GetUniqueId());
 		
 		_playerInputs = new PlayerInputs(this);
 	}
