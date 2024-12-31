@@ -47,7 +47,7 @@ func addItem(id: int, lobbyName: String):
 		func(lobbyId: int):
 			if selectedRow:
 				selectedRow.setSelected(false)
-			selectedRow = lobbyRows.filter(func(x: LobbyRow): x.id == lobbyId)[0]
+			selectedRow = lobbyRows.filter(func(x: LobbyRow): return x.id == lobbyId)[0]
 			selectedRow.setSelected(true)
 			pass
 	)

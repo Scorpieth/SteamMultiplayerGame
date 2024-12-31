@@ -16,7 +16,7 @@ class_name LobbyMenu
 func _ready() -> void:
 	joinButton.pressed.connect(
 		func():
-			Steam.joinLobby(lobbyList.selectedRow.lobbyDetails.lobbyId)
+			Steam.joinLobby(lobbyList.selectedRow.id)
 			lobbies.hide()
 			waitingRoom.show()
 	)

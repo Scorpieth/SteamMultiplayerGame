@@ -27,5 +27,5 @@ func setSelected(selected: bool):
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton && event.button_index == MOUSE_BUTTON_LEFT && event.is_released():
-		lobby_selected.emit()
+		lobby_selected.emit(id)
 	pass

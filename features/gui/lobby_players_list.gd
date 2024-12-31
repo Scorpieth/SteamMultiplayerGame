@@ -4,7 +4,8 @@ class_name LobbyPlayersList
 func refreshPlayers(lobbyId: int):
 	if !lobbyId:
 		return
-	
+	clear()
+		
 	var playerCount = Steam.getNumLobbyMembers(lobbyId)
 	
 	for num in playerCount:

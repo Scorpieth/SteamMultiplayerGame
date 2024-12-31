@@ -73,7 +73,6 @@ func _on_lobby_joined(targetLobbyId, _permissions, _locked, response):
 		return
 	
 	connectSteamSocket(lobbyOwnerId);
-	register_player.rpc(playerSteamName)
 	players[multiplayer.get_unique_id()] = playerSteamName
 	player_list_changed.emit()
 	pass
@@ -91,7 +90,8 @@ func _on_peer_disconnected():
 
 @rpc("any_peer", "call_local")
 func register_player(playerName: String):
-	var remoteSenderId = multiplayer.get_remote_sender_id()
+	print("Registering player:", playerName)
+	var remoteSenderId:= multiplayer.get_remote_sender_id()
 	players[remoteSenderId] = playerName
 	player_list_changed.emit()
 	pass
