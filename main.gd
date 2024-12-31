@@ -56,7 +56,7 @@ func load_world():
 
 @rpc("any_peer")
 func spawn_player(steamName: String):
-	print("Spawning Player: ", steamName)
+	print("Spawning remote Player: ", steamName)
 	var senderId = multiplayer.get_remote_sender_id()
 	var packedPlayer = load("res://features/player/player.tscn")
 	var playerScene = packedPlayer.instantiate()
