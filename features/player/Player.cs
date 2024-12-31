@@ -16,7 +16,9 @@ public partial class Player : CharacterBody3D
 		
 		SetProcess(isMultiplayerAuthority);
 		SetPhysicsProcess(isMultiplayerAuthority);
-
+		
+		var peerId = Multiplayer.GetUniqueId();
+		
 		_synchronizer.SetMultiplayerAuthority(peerId);
 		
 		if (!isMultiplayerAuthority)
@@ -27,8 +29,6 @@ public partial class Player : CharacterBody3D
 		var packedCamera = GD.Load<PackedScene>("res://features/player/player_camera.tscn");
 		_camera = packedCamera.Instantiate<PlayerCamera>();
 		GetParent().AddChild(_camera);
-
-		var peerId = Multiplayer.GetUniqueId();
 		
 		_camera.SetCurrent(true);
 		_camera.SetPlayer(this);
