@@ -41,7 +41,7 @@ func startGame():
 			load_world.rpc_id(player)
 			
 		load_player.rpc_id(player, player)
-		teleport_player.rpc_id(player, teleportPosition)
+		teleport_player.rpc_id(player, Vector3(spawnLocation * 10, 0, 0))
 		spawnLocation += 1
 	pass
 	
