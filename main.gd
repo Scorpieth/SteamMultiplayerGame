@@ -42,6 +42,7 @@ func startGame():
 			
 		load_player.rpc_id(player, player)
 		teleport_player.rpc_id(player, teleportPosition)
+		spawnLocation += 1
 	pass
 	
 	
