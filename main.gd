@@ -33,6 +33,8 @@ func startGame():
 		load_player.rpc_id(player, player)
 	pass
 	
+	
+@rpc
 func load_player(peerId: int):
 	print("loading player..")
 	set_multiplayer_authority(peerId)
