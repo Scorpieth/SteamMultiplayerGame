@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://features/networking/steam_networking.gd" id="2_21nkt"]
 [ext_resource type="PackedScene" uid="uid://dsw2rh17w0fye" path="res://features/gui/lobby_menu.tscn" id="2_v64vj"]
 [ext_resource type="Script" path="res://features/gui/gui.gd" id="3_klrq2"]
-[ext_resource type="Script" path="res://world.gd" id="6_ifnk7"]
+[ext_resource type="Script" path="res://features/world/world.gd" id="6_ifnk7"]
 
 [node name="Main" type="Node" node_paths=PackedStringArray("networking", "world")]
 script = ExtResource("1_b7uqs")
