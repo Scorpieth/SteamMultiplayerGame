@@ -40,7 +40,7 @@ func startGame():
 		if player != multiplayer.get_unique_id():
 			load_world.rpc_id(player)
 			
-		load_player.rpc_id(player, player, spawnLocation)
+		load_player.rpc_id(player, player)
 		teleport_player.rpc_id(player, teleportPosition)
 	pass
 	
