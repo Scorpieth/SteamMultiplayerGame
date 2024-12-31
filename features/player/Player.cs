@@ -16,8 +16,12 @@ public partial class Player : CharacterBody3D
 		
 		SetProcess(isMultiplayerAuthority);
 		SetPhysicsProcess(isMultiplayerAuthority);
-		
-		var peerId = Multiplayer.GetUniqueId();
+
+		if (!int.TryParse(Name, out var peerId))
+		{
+			GD.PrintErr("Failed to set Authority on player. Invalid peerId");
+			return;
+		}
 		
 		_synchronizer.SetMultiplayerAuthority(peerId);
 		
