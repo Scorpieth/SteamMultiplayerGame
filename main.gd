@@ -40,8 +40,8 @@ func load_player(peerId: int):
 	var packedPlayer: PackedScene = load("res://features/player/player.tscn")
 	var playerScene: Node3D = packedPlayer.instantiate()
 	playerScene.name = networking.playerSteamName + str(peerId)
-	playerScene.set_multiplayer_authority(peerId, true)
 	world.addPlayer(playerScene)
+	playerScene.set_multiplayer_authority(peerId, true)
 	spawn_player.rpc(networking.playerSteamName)
 	game_started.emit()
 	pass
@@ -61,6 +61,6 @@ func spawn_player(steamName: String):
 	var packedPlayer = load("res://features/player/player.tscn")
 	var playerScene = packedPlayer.instantiate()
 	playerScene.name = steamName + str(senderId)
-	playerScene.set_multiplayer_authority(senderId, true);
 	world.addPlayer(playerScene)
+	playerScene.set_multiplayer_authority(senderId, true);
 	pass
