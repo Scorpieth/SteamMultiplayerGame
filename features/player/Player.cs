@@ -37,6 +37,9 @@ public partial class Player : CharacterBody3D
 		_camera.SetMultiplayerAuthority(peerId);
 		
 		_playerInputs = new PlayerInputs(this);
+
+		var main = GetTree().Root.GetNode<Node>("Main");
+		main.Connect("player_teleported", new Callable(this, MethodName.OnPlayerTeleport));
 	}
 
 	public override void _Process(double delta)
@@ -84,5 +87,10 @@ public partial class Player : CharacterBody3D
 		var rayEnd = rayStart + camera.ProjectRayNormal(mousePosition) * 2000;
 
 		return targetPlane.IntersectsRay(rayStart, rayEnd) ?? Vector3.Zero;
+	}
+
+	private void OnPlayerTeleport(Vector3 newPosition)
+	{
+		
 	}
 }

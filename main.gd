@@ -6,6 +6,7 @@ class_name Main
 
 signal game_started;
 signal game_ended;
+signal player_teleport(position: Vector3);
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -27,16 +28,26 @@ func startGame():
 	if not multiplayer.is_server():
 		return
 	print("Starting game..")
-	
+	var spawnLocation := 0;
+
+	var packedMap: PackedScene = load("res://features/world/testMap/testWorld.tscn")
+	var mapScene: TestWorld = packedMap.instantiate()
+	world.add_child(mapScene)
+
+	var teleportPosition: Marker3D = mapScene.spawnLocations[spawnLocation];	
+
 	for player in networking.players:
-		load_world.rpc_id(player)
-		load_player.rpc_id(player, player)
+		if player != multiplayer.get_unique_id():
+			load_world.rpc_id(player)
+			
+		load_player.rpc_id(player, player, spawnLocation)
+		teleport_player.rpc_id(player, teleportPosition)
 	pass
 	
 	
 @rpc("call_local")
 func load_player(peerId: int):
-	print("loading player..")
+	print("Loading player..")
 	var packedPlayer: PackedScene = load("res://features/player/player.tscn")
 	var playerScene: Node3D = packedPlayer.instantiate()
 	playerScene.name = networking.playerSteamName + str(peerId)
@@ -44,14 +55,16 @@ func load_player(peerId: int):
 	world.addPlayer(playerScene)
 	spawn_player.rpc(networking.playerSteamName)
 	game_started.emit()
+	print("Player loaded..")
 	pass
 
 @rpc("call_local")
 func load_world():
-	print("loading world..")
+	print("Loading world..")
 	var packedMap = load("res://features/world/testMap/testWorld.tscn")
 	var mapScene = packedMap.instantiate()
 	world.add_child(mapScene)
+	print("World loaded..")
 	pass
 
 @rpc("any_peer")
@@ -63,4 +76,11 @@ func spawn_player(steamName: String):
 	playerScene.name = steamName + str(senderId)
 	playerScene.set_multiplayer_authority(senderId, true)
 	world.addPlayer(playerScene)
+	pass
+	
+@rpc("call_local")
+func teleport_player(position: Vector3):
+	print("Teleporting player..")
+	player_teleport.emit(position)
+	print("Player teleported..")
 	pass
