@@ -34,7 +34,7 @@ func startGame():
 	var mapScene: TestWorld = packedMap.instantiate()
 	world.add_child(mapScene)
 
-	var teleportPosition: Marker3D = mapScene.spawnLocations[spawnLocation];	
+	var teleportPosition: Vector3 = mapScene.spawnLocations[spawnLocation].global_position;	
 
 	for player in networking.players:
 		if player != multiplayer.get_unique_id():
@@ -70,8 +70,8 @@ func load_world():
 func spawn_player(steamName: String):
 	print("Spawning remote Player: ", steamName)
 	var senderId = multiplayer.get_remote_sender_id()
-	var packedPlayer = load("res://features/player/player.tscn")
-	var playerScene = packedPlayer.instantiate()
+	var packedPlayer: PackedScene = load("res://features/player/player.tscn")
+	var playerScene: Node3D = packedPlayer.instantiate()
 	playerScene.name = str(senderId)
 	world.addPlayer(playerScene)
 	pass

@@ -12,18 +12,20 @@ public partial class Player : CharacterBody3D
 
 	public override void _Ready()
 	{
-		var isMultiplayerAuthority = IsMultiplayerAuthority();
-		
-		SetProcess(isMultiplayerAuthority);
-		SetPhysicsProcess(isMultiplayerAuthority);
-
 		if (!int.TryParse(Name, out var peerId))
 		{
 			GD.PrintErr("Failed to set Authority on player. Invalid peerId");
 			return;
 		}
-		
+
+		GD.Print($"Setting Authority on {Name} to {peerId}");
+		SetMultiplayerAuthority(peerId);
 		_synchronizer.SetMultiplayerAuthority(peerId);
+		
+		var isMultiplayerAuthority = IsMultiplayerAuthority();
+		
+		SetProcess(isMultiplayerAuthority);
+		SetPhysicsProcess(isMultiplayerAuthority);
 		
 		if (!isMultiplayerAuthority)
 		{
@@ -43,7 +45,7 @@ public partial class Player : CharacterBody3D
 		_playerInputs = new PlayerInputs(this);
 
 		var main = GetTree().Root.GetNode<Node>("Main");
-		main.Connect("player_teleported", new Callable(this, MethodName.OnPlayerTeleport));
+		main.Connect("player_teleport", new Callable(this, MethodName.OnPlayerTeleport));
 	}
 
 	public override void _Process(double delta)
@@ -95,6 +97,6 @@ public partial class Player : CharacterBody3D
 
 	private void OnPlayerTeleport(Vector3 newPosition)
 	{
-		
+		GlobalPosition = newPosition;
 	}
 }
