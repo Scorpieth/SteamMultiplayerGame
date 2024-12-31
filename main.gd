@@ -37,10 +37,10 @@ func startGame():
 @rpc
 func load_player(peerId: int):
 	print("loading player..")
-	set_multiplayer_authority(peerId)
 	var packedPlayer: PackedScene = load("res://features/player/player.tscn")
 	var playerScene: Node3D = packedPlayer.instantiate()
 	playerScene.name = networking.playerSteamName + str(peerId)
+	playerScene.set_multiplayer_authority(peerId)
 	world.addPlayer(playerScene)
 	spawn_player.rpc(networking.playerSteamName)
 	game_started.emit()
@@ -56,6 +56,7 @@ func load_world():
 
 @rpc("any_peer")
 func spawn_player(steamName: String):
+	print("Spawning Player: ", steamName)
 	var senderId = multiplayer.get_remote_sender_id()
 	var packedPlayer = load("res://features/player/player.tscn")
 	var playerScene = packedPlayer.instantiate()
