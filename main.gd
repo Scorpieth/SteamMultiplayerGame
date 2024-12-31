@@ -63,5 +63,4 @@ func spawn_player(steamName: String):
 	playerScene.name = steamName + str(senderId)
 	playerScene.set_multiplayer_authority(senderId, true)
 	world.addPlayer(playerScene)
-	playerScene.set_multiplayer_authority(senderId, true)
 	pass
