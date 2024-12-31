@@ -17,6 +17,8 @@ public partial class Player : CharacterBody3D
 		SetProcess(isMultiplayerAuthority);
 		SetPhysicsProcess(isMultiplayerAuthority);
 
+		_synchronizer.SetMultiplayerAuthority(peerId);
+		
 		if (!isMultiplayerAuthority)
 		{
 			return;
@@ -33,7 +35,6 @@ public partial class Player : CharacterBody3D
 		
 		// Set up multiplayer authority for children nodes
 		_camera.SetMultiplayerAuthority(peerId);
-		_synchronizer.SetMultiplayerAuthority(peerId);
 		
 		_playerInputs = new PlayerInputs(this);
 	}
