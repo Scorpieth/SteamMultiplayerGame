@@ -34,7 +34,7 @@ func startGame():
 	pass
 	
 	
-@rpc
+@rpc("call_local")
 func load_player(peerId: int):
 	print("loading player..")
 	var packedPlayer: PackedScene = load("res://features/player/player.tscn")
