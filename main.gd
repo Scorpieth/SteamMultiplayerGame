@@ -61,5 +61,6 @@ func spawn_player(steamName: String):
 	var packedPlayer = load("res://features/player/player.tscn")
 	var playerScene = packedPlayer.instantiate()
 	playerScene.name = steamName + str(senderId)
+	playerScene.set_multiplayer_authority(senderId, true);
 	world.addPlayer(playerScene)
 	pass
