@@ -98,7 +98,7 @@ public partial class Player : CharacterBody3D
 	private void OnPlayerTeleport(Vector3 newPosition)
 	{
 		GD.Print("Teleporting.. - ", Name);
-		GD.PrintErr("New pos: ", newPosition);
+		GD.Print("New pos: ", newPosition);
 		GlobalPosition = newPosition;
 	}
 }
