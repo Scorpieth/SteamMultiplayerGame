@@ -64,8 +64,8 @@ func load_world():
 	print("Loading world..")
 	var packedMap: PackedScene = load("res://features/world/testMap/testWorld.tscn")
 	var mapScene: Node3D = packedMap.instantiate()
-	mapScene.global_position = Vector3(0, -5, 0)
 	world.add_child(mapScene)
+	mapScene.global_position = Vector3(0, -5, 0)
 	print("World loaded..")
 	pass
 
