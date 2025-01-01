@@ -18,7 +18,6 @@ func _ready() -> void:
 	Steam.requestLobbyList();
 	pass # Replace with function body.
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	Steam.run_callbacks();
@@ -44,16 +43,18 @@ func startGame():
 		teleport_player.rpc_id(player, Vector3(spawnLocation * 10, 0, 0))
 		spawnLocation += 1
 	pass
-	
-	
+
 @rpc("call_local")
 func load_player(peerId: int):
 	print("Loading player..")
 	var packedPlayer: PackedScene = load("res://features/player/player.tscn")
 	var playerScene: Node3D = packedPlayer.instantiate()
 	playerScene.name = str(peerId)
+	playerScene.MultiplayerAuthority = peerId
 	world.addPlayer(playerScene)
+	
 	spawn_player.rpc(networking.playerSteamName)
+	
 	game_started.emit()
 	print("Player loaded..")
 	pass
@@ -61,7 +62,7 @@ func load_player(peerId: int):
 @rpc("call_local")
 func load_world():
 	print("Loading world..")
-	var packedMap = load("res://features/world/testMap/testWorld.tscn")
+	var packedMap: PackedScene = load("res://features/world/testMap/testWorld.tscn")
 	var mapScene: Node3D = packedMap.instantiate()
 	mapScene.global_position = Vector3(0, -5, 0)
 	world.add_child(mapScene)
@@ -71,11 +72,12 @@ func load_world():
 @rpc("any_peer")
 func spawn_player(steamName: String):
 	print("Spawning remote Player: ", steamName)
-	var senderId = multiplayer.get_remote_sender_id()
+	var senderId := multiplayer.get_remote_sender_id()
 	var packedPlayer: PackedScene = load("res://features/player/player.tscn")
 	var playerScene: Node3D = packedPlayer.instantiate()
 	playerScene.name = str(senderId)
-	playerScene.global_position = Vector3(100, 100, 100)
+	playerScene.MultiplayerAuthority = senderId
+#	playerScene.global_position = Vector3(100, 100, 100)
 	world.addPlayer(playerScene)
 	pass
 	

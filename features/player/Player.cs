@@ -6,22 +6,24 @@ public partial class Player : CharacterBody3D
 {
 	[Export] private MultiplayerSynchronizer _synchronizer;
 	[Export]private float _speed = 5.0f;
+	[Export]private PlayerCamera _camera;
 
-	private PlayerCamera _camera;
+	[Export] private int _multiplayerAuthority;
+
+	public int MultiplayerAuthority
+	{
+		get => _multiplayerAuthority;
+		set
+		{
+			_multiplayerAuthority = value;
+			SetMultiplayerAuthority(value);
+		}
+	}
+	
 	private PlayerInputs _playerInputs;
 
 	public override void _Ready()
 	{
-		if (!int.TryParse(Name, out var peerId))
-		{
-			GD.PrintErr("Failed to set Authority on player. Invalid peerId");
-			return;
-		}
-
-		GD.Print($"Setting Authority on {Name} to {peerId}");
-		SetMultiplayerAuthority(peerId);
-		_synchronizer.SetMultiplayerAuthority(peerId);
-		
 		var isMultiplayerAuthority = IsMultiplayerAuthority();
 		
 		SetProcess(isMultiplayerAuthority);
@@ -31,16 +33,6 @@ public partial class Player : CharacterBody3D
 		{
 			return;
 		}
-
-		var packedCamera = GD.Load<PackedScene>("res://features/player/player_camera.tscn");
-		_camera = packedCamera.Instantiate<PlayerCamera>();
-		GetParent().AddChild(_camera);
-		
-		_camera.SetCurrent(true);
-		_camera.SetPlayer(this);
-		
-		// Set up multiplayer authority for children nodes
-		_camera.SetMultiplayerAuthority(peerId);
 		
 		_playerInputs = new PlayerInputs(this);
 

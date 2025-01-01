@@ -4,15 +4,10 @@ namespace SteamMultiplayer.features.player;
 
 public partial class PlayerCamera : Camera3D
 {
-	public Player Player { get; private set; }
+	[Export] private Player _player;
 	
 	public override void _PhysicsProcess(double delta)
 	{
-		GlobalPosition = new(Player.GlobalPosition.X, GlobalPosition.Y, Player.GlobalPosition.Z + 4.5f);
-	}
-
-	public void SetPlayer(Player player)
-	{
-		Player = player;
+		GlobalPosition = new(_player.GlobalPosition.X, GlobalPosition.Y, _player.GlobalPosition.Z + 4.5f);
 	}
 }
