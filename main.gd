@@ -56,7 +56,7 @@ func load_player(peerId: int, startPos: Vector3):
 	playerScene.StartPosition = startPos
 	world.addPlayer(playerScene)
 	
-	spawn_player.rpc(networking.playerSteamName)
+	spawn_player.rpc(networking.playerSteamName, startPos)
 	
 	game_started.emit()
 	print("Player loaded..")
