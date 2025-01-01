@@ -20,6 +20,8 @@ public partial class Player : CharacterBody3D
 		}
 	}
 	
+	public Vector3 StartPosition { get; set; }
+	
 	private PlayerInputs _playerInputs;
 
 	public override void _Ready()
@@ -28,6 +30,8 @@ public partial class Player : CharacterBody3D
 		
 		SetProcess(isMultiplayerAuthority);
 		SetPhysicsProcess(isMultiplayerAuthority);
+
+		GlobalPosition = StartPosition;
 		
 		if (!isMultiplayerAuthority)
 		{

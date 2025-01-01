@@ -33,24 +33,27 @@ func startGame():
 	var mapScene: TestWorld = packedMap.instantiate()
 	world.add_child(mapScene)
 
-	var teleportPosition: Vector3 = mapScene.spawnLocations[spawnLocation].global_position;	
+	var spawnPositions: Array[Marker3D] = mapScene.spawnLocations;	
 
 	for player in networking.players:
 		if player != multiplayer.get_unique_id():
 			load_world.rpc_id(player)
 			
-		load_player.rpc_id(player, player)
-		teleport_player.rpc_id(player, Vector3(spawnLocation * 10, 0, 0))
+		var startPos := spawnPositions[spawnLocation].global_position;
+		
+		load_player.rpc_id(player, player, startPos)
+		teleport_player.rpc_id(player, startPos)
 		spawnLocation += 1
 	pass
 
 @rpc("call_local")
-func load_player(peerId: int):
+func load_player(peerId: int, startPos: Vector3):
 	print("Loading player..")
 	var packedPlayer: PackedScene = load("res://features/player/player.tscn")
 	var playerScene: Node3D = packedPlayer.instantiate()
 	playerScene.name = str(peerId)
 	playerScene.MultiplayerAuthority = peerId
+	playerScene.StartPosition = startPos
 	world.addPlayer(playerScene)
 	
 	spawn_player.rpc(networking.playerSteamName)
@@ -65,18 +68,18 @@ func load_world():
 	var packedMap: PackedScene = load("res://features/world/testMap/testWorld.tscn")
 	var mapScene: Node3D = packedMap.instantiate()
 	world.add_child(mapScene)
-	mapScene.global_position = Vector3(0, -5, 0)
 	print("World loaded..")
 	pass
 
 @rpc("any_peer")
-func spawn_player(steamName: String):
+func spawn_player(steamName: String, startPos: Vector3):
 	print("Spawning remote Player: ", steamName)
 	var senderId := multiplayer.get_remote_sender_id()
 	var packedPlayer: PackedScene = load("res://features/player/player.tscn")
 	var playerScene: Node3D = packedPlayer.instantiate()
 	playerScene.name = str(senderId)
 	playerScene.MultiplayerAuthority = senderId
+	playerScene.StartPosition = startPos
 #	playerScene.global_position = Vector3(100, 100, 100)
 	world.addPlayer(playerScene)
 	pass
