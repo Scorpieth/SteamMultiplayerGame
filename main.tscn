@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://o7p6f421ovd7"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_b7uqs"]
-[ext_resource type="Script" path="res://features/networking/steam_networking.gd" id="2_21nkt"]
+[ext_resource type="Script" uid="uid://bmsd7eaew1dw3" path="res://main.gd" id="1_b7uqs"]
+[ext_resource type="Script" uid="uid://cm3p5q5s7o5rd" path="res://features/networking/steam_networking.gd" id="2_21nkt"]
 [ext_resource type="PackedScene" uid="uid://dsw2rh17w0fye" path="res://features/gui/lobby_menu.tscn" id="2_v64vj"]
-[ext_resource type="Script" path="res://features/gui/gui.gd" id="3_klrq2"]
-[ext_resource type="Script" path="res://features/world/world.gd" id="6_ifnk7"]
+[ext_resource type="Script" uid="uid://jf8nko754kt5" path="res://features/gui/gui.gd" id="3_klrq2"]
+[ext_resource type="Script" uid="uid://baqgkrjf7xvnw" path="res://features/world/world.gd" id="6_ifnk7"]
 
 [node name="Main" type="Node" node_paths=PackedStringArray("networking", "world")]
 script = ExtResource("1_b7uqs")

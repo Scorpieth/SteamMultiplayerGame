@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://deok6m4sw04ca"]
 
-[ext_resource type="Script" path="res://features/world/testMap/test_world.gd" id="1_kx1tt"]
+[ext_resource type="Script" uid="uid://bfvl8kl5igens" path="res://features/world/testMap/test_world.gd" id="1_kx1tt"]
 [ext_resource type="PackedScene" uid="uid://dkppwqp6okv65" path="res://features/world/sky/world_environment.tscn" id="1_pk70n"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6mf2l"]
