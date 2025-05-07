@@ -78,7 +78,7 @@ func _on_lobby_joined(targetLobbyId, _permissions, _locked, response):
 	pass
 
 func _on_lobby_play_requested():
-	main.startGame()
+	main.start_game()
 	pass
 
 func _on_peer_connected(peerId):

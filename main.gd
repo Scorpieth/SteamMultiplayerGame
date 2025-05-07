@@ -23,7 +23,7 @@ func _process(_delta: float) -> void:
 	Steam.run_callbacks();
 	pass
 
-func startGame():
+func start_game():
 	if not multiplayer.is_server():
 		return
 	print("Starting game..")
