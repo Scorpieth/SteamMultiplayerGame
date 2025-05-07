@@ -80,7 +80,6 @@ func spawn_player(steamName: String, startPos: Vector3):
 	playerScene.name = str(senderId)
 	playerScene.MultiplayerAuthority = senderId
 	playerScene.StartPosition = startPos
-#	playerScene.global_position = Vector3(100, 100, 100)
 	world.addPlayer(playerScene)
 	pass
 	
