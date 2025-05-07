@@ -4,5 +4,7 @@ This setup currently has a demo scene for third person (top-view) 3d. You can sw
 
 This comes packed with a very basic lobby implementation.
 
+There is no strict architectural decisions made, but it does utilise signals since it helps with keeping things decoupled. I might update this with more opinionated choices in the future.
+
 ## OBS
-Currently the leave butt on is not implemented, I should probably get to that at some point.. Soon™
+Currently the leave button is not implemented, I should probably get to that at some point.. Soon™
